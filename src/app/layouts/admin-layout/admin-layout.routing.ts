@@ -8,6 +8,7 @@ import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
+import { ProductsComponent } from 'app/pagesSimpleUser/products/products.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -15,5 +16,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'users',          component: TableComponent },
     { path: 'products',       component: TypographyComponent },
     { path: 'orders',          component: IconsComponent },
+    { path: 'updatePassword',       component: MapsComponent },
 
 ];

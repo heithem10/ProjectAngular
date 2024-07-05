@@ -2,6 +2,8 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location} from '@angular/common';
+import { AuthService } from 'app/services/auth-service.service';
+import { UserServiceService } from 'app/services/user-service.service';
 
 @Component({
     moduleId: module.id,
@@ -10,6 +12,7 @@ import { Location} from '@angular/common';
 })
 
 export class NavbarComponent implements OnInit{
+  [x: string]: any;
     private listTitles: any[];
     location: Location;
     private nativeElement: Node;
@@ -19,7 +22,7 @@ export class NavbarComponent implements OnInit{
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button;
 
-    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router) {
+    constructor(location:Location,private userService: UserServiceService, private renderer : Renderer2, private element : ElementRef, private router: Router, private authService: AuthService) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -91,5 +94,17 @@ export class NavbarComponent implements OnInit{
         }
 
       }
+
+      logout() {
+    this.userService.logout().subscribe(
+      () => {
+        localStorage.removeItem('user'); // Suppression du user dans localStorage
+        this.router.navigate(['/login']); // Redirection vers la page de login
+      },
+      (error) => {
+        console.error('Logout failed', error);
+      }
+    );
+  }
 
 }

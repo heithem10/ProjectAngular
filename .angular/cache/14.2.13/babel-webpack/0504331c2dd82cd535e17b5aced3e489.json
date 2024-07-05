@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { ProductsComponent } from \"app/pagesSimpleUser/products/products.component\";\nexport const SimpleLayoutRoutes = [{\n  path: 'azerty',\n  component: ProductsComponent\n}];","map":null,"metadata":{},"sourceType":"module"}

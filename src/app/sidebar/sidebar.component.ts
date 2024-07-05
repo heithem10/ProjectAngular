@@ -9,11 +9,11 @@ export interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard',     title: 'Dashboard',         icon:'nc-bank',         class: '' },
-    { path: '/orders',        title: 'Order',             icon:'nc-cart-simple',  class: '' },
-    { path: '/user',          title: 'User Profile',      icon:'nc-circle-10',    class: '' },
-    { path: '/users',         title: 'Utilisateurs',      icon:'nc-single-02',    class: '' },
-    { path: '/products',      title: 'products',          icon:'nc-box',          class: '' },
+    { path: '/admin/dashboard',     title: 'Dashboard',         icon:'nc-bank',         class: '' },
+    { path: '/admin/orders',        title: 'Order',             icon:'nc-cart-simple',  class: '' },
+    { path: '/admin/user',          title: 'User Profile',      icon:'nc-circle-10',    class: '' },
+    { path: '/admin/users',         title: 'Utilisateurs',      icon:'nc-single-02',    class: '' },
+    { path: '/admin/products',      title: 'products',          icon:'nc-box',          class: '' },
 ];
 
 @Component({
