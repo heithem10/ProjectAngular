@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'app/services/auth-service.service';
 
 
 @Component({
@@ -8,5 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLayoutComponent implements OnInit {
 
-  ngOnInit() { }
+  constructor(private authService : AuthService) { }
+   userRole: string;
+
+  ngOnInit() {
+    this.userRole = this.authService.getUserRole();
+    console.log(this.userRole)
+   }
+
 }

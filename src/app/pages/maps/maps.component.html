@@ -1,12 +1,33 @@
-
 <div class="row">
-  <div class="col-md-12">
-    <div class="card ">
-      <div class="card-header ">
-        Google Maps
+  <div class="col-md-8 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Update Password</h5>
       </div>
-      <div class="card-body ">
-        <div id="map" class="map"></div>
+      <div class="card-body">
+        <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="oldPassword">Old Password</label>
+            <input type="password" formControlName="oldPassword" class="form-control" id="oldPassword"
+              placeholder="Enter old password">
+            <div
+              *ngIf="passwordForm.get('oldPassword').invalid && (passwordForm.get('oldPassword').dirty || passwordForm.get('oldPassword').touched)"
+              class="text-danger">
+              Old password is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" formControlName="newPassword" class="form-control" id="newPassword"
+              placeholder="Enter new password">
+            <div
+              *ngIf="passwordForm.get('newPassword').invalid && (passwordForm.get('newPassword').dirty || passwordForm.get('newPassword').touched)"
+              class="text-danger">
+              New password is required and must be at least 6 characters long
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="passwordForm.invalid">Update Password</button>
+        </form>
       </div>
     </div>
   </div>

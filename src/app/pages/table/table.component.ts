@@ -1,41 +1,91 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { user } from 'app/models/user';
+import { UserServiceService } from 'app/services/user-service.service';
 
-declare interface TableData {
-    headerRow: string[];
-    dataRows: string[][];
-}
 
 @Component({
-    selector: 'table-cmp',
-    moduleId: module.id,
-    templateUrl: 'table.component.html'
+  selector: 'table-cmp',
+  moduleId: module.id,
+  templateUrl: 'table.component.html'
 })
+export class TableComponent implements OnInit {
+  users: any[] = [];
+  filteredUsers: any[] = [];
+  searchTerm: string = '';
+  formUser!: FormGroup;
+  selectedUserId: string | null = null;
 
-export class TableComponent implements OnInit{
-    public tableData1: TableData;
-    public tableData2: TableData;
-    ngOnInit(){
-        this.tableData1 = {
-            headerRow: [ 'ID', 'Name', 'Country', 'City', 'Salary'],
-            dataRows: [
-                ['1', 'Dakota Rice', 'Niger', 'Oud-Turnhout', '$36,738'],
-                ['2', 'Minerva Hooper', 'Curaçao', 'Sinaai-Waas', '$23,789'],
-                ['3', 'Sage Rodriguez', 'Netherlands', 'Baileux', '$56,142'],
-                ['4', 'Philip Chaney', 'Korea, South', 'Overland Park', '$38,735'],
-                ['5', 'Doris Greene', 'Malawi', 'Feldkirchen in Kärnten', '$63,542'],
-                ['6', 'Mason Porter', 'Chile', 'Gloucester', '$78,615']
-            ]
-        };
-        this.tableData2 = {
-            headerRow: [ 'ID', 'Name',  'Salary', 'Country', 'City' ],
-            dataRows: [
-                ['1', 'Dakota Rice','$36,738', 'Niger', 'Oud-Turnhout' ],
-                ['2', 'Minerva Hooper', '$23,789', 'Curaçao', 'Sinaai-Waas'],
-                ['3', 'Sage Rodriguez', '$56,142', 'Netherlands', 'Baileux' ],
-                ['4', 'Philip Chaney', '$38,735', 'Korea, South', 'Overland Park' ],
-                ['5', 'Doris Greene', '$63,542', 'Malawi', 'Feldkirchen in Kärnten', ],
-                ['6', 'Mason Porter', '$78,615', 'Chile', 'Gloucester' ]
-            ]
-        };
+  constructor(private userService: UserServiceService , private router: Router) {
+    this.formUser = new FormGroup({
+      username: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      address: new FormControl('', Validators.required)
+    });
+  }
+
+  ngOnInit(): void {
+    this.formUser = new FormGroup({
+      username: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      address: new FormControl('')
+    });
+
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe(data => {
+      this.users = data.user;
+      this.filteredUsers = this.users;
+      console.log("user:", this.users);
+    }, error => {
+      console.error('Error fetching users', error);
+    });
+  }
+
+  filterUsers() {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredUsers = this.users.filter(user =>
+      user.username.toLowerCase().includes(term) ||
+      user.firstName.toLowerCase().includes(term) ||
+      user.lastName.toLowerCase().includes(term) ||
+      user.email.toLowerCase().includes(term) ||
+      user.address.toLowerCase().includes(term)
+    );
+  }
+
+  onEditUser(user: any) {
+    this.selectedUserId = user._id;
+    this.formUser.patchValue({
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      address: user.address
+    });
+  }
+
+  updateUser() {
+    if (this.formUser.invalid) {
+      return;
     }
+
+    const updatedUser = this.formUser.value;
+    this.userService.updateUserById(this.selectedUserId, updatedUser).subscribe(
+      response => {
+        console.log('User updated successfully', response);
+        this.getUsers(); // Met à jour la liste des utilisateurs après la modification
+      },
+      error => {
+        console.error('Error updating user', error);
+      }
+    );
+  }
 }
