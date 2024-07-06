@@ -1,0 +1,11 @@
+<h1>hello</h1>
+
+<div class="card">
+    <img [src]="product.imageUrl" alt="{{ product.title }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ product.title }}</h5>
+        <p class="card-text">Category: {{ product.category }}</p>
+        <p class="card-text">Rating: {{ product.rating }}</p>
+    <!-- <a [routerLink]="['/product', product.id]" class="btn btn-primary">Lire la suite</a> -->
+    </div>
+</div>

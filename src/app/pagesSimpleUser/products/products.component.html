@@ -1,2 +1,15 @@
-<br><br><br>
-qSDQFSGDFHGJKYUHGFSDEQQZDERTRFYJHTGDREFZSzdqesrf
+<div class="container">
+<div class="product-list">
+    <div class="product-card" *ngFor="let product of products">
+        <div class="card">
+            <img [src]="product.imageUrl" alt="{{ product.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">Category: {{ product.category }}</p>
+                <p class="card-text">Price: {{ product.price }}</p>
+                <a [routerLink]="['/simple/product', product.id]" class="btn btn-primary">More..</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,40 @@
+<div *ngIf="product" class="product-card">
+    <div class="card">
+        <img [src]="product.imageUrl" alt="{{ product.name }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">Category: {{ product.category }}</p>
+            <p class="card-text">Rating: {{ product.rating }}</p>
+            <div class="stars">
+                <span class="star" [ngClass]="{'filled': currentRating >= 1, 'unfilled': currentRating < 1}"
+                    (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" (click)="rateStar(1)">☆</span>
+                <span class="star" [ngClass]="{'filled': currentRating >= 2, 'unfilled': currentRating < 2}"
+                    (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" (click)="rateStar(2)">☆</span>
+                <span class="star" [ngClass]="{'filled': currentRating >= 3, 'unfilled': currentRating < 3}"
+                    (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" (click)="rateStar(3)">☆</span>
+                <span class="star" [ngClass]="{'filled': currentRating >= 4, 'unfilled': currentRating < 4}"
+                    (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" (click)="rateStar(4)">☆</span>
+                <span class="star" [ngClass]="{'filled': currentRating >= 5, 'unfilled': currentRating < 5}"
+                    (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" (click)="rateStar(5)">☆</span>
+            </div>
+            <div *ngFor="let rate of reviews">
+                Review: {{rate.rating}}
+                <br>
+                {{rate.comment}}
+
+            </div>
+
+<p class="card-text">Price: {{ product.price }}</p>
+            <p class="card-text">Description: {{ product.description }}</p>
+        </div>
+    
+
+        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" *ngIf="currentRating > 0">
+            <div>
+                <label for="comment">Commentaire</label>
+                <textarea id="comment" formControlName="comment"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Envoyer</button>
+        </form>
+    </div>
+</div>

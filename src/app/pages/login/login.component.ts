@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
           // Redirection en fonction du rôle de l'utilisateur
           if (data && data.user && data.user.role) {
             this.authService.setUserRole(data.user);
+            this.authService.setUserId(data.user.userId)
             if (data.user.role === 'admin') {
               this.router.navigate(['/admin']);
             } else if (data.user.role === 'user') {
