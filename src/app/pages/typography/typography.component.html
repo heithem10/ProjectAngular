@@ -1,120 +1,75 @@
+<!-- src/app/components/typography/typography.component.html -->
 <table class="table table-striped" style="text-align: center;">
   <thead>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPost">Ajouter Utilisateur</button>
-
-
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalForm" (click)="openAddModal()">Ajouter
+      Produit</button>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Nom</th>
-      <th scope="col">Prénom</th>
-      <th scope="col">Email</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Description</th>
+      <th scope="col">Image</th>
+      <th scope="col">Category</th>
       <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+    <tr *ngFor="let product of products; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.description }}</td>
+      <td><img [src]="product.image" alt="{{ product.name }}" width="50"></td>
+      <td>{{ product.category }}</td>
       <td>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUpdate">
-          Modifier
-        </button>&nbsp;
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete">
-          Supprimer
-        </button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalForm"
+          (click)="openUpdateModal(product)">Modifier</button>&nbsp;
+        <button class="btn btn-danger" (click)="deleteProduct(product._id)">Supprimer</button>
       </td>
     </tr>
   </tbody>
 </table>
 
-<!-- Post modal -->
-<div class="modal fade" id="modalPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Form modal -->
+<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ajouter Utilisateur</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Formulaire Produit</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
       </div>
       <div class="modal-body">
-        <form>
+        <form [formGroup]="productForm" (ngSubmit)="submitForm()">
           <div class="mb-3">
-            <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom">
+            <label for="name" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="name" formControlName="name">
           </div>
           <div class="mb-3">
-            <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="prenom">
+            <label for="price" class="form-label">Prix</label>
+            <input type="number" class="form-control" id="price" formControlName="price">
           </div>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" id="description" formControlName="description">
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password">
+            <label for="category" class="form-label">Catégorie</label>
+            <select class="form-control" id="category" formControlName="category">
+              <option value="smartphone">Smartphone</option>
+              <option value="laptop">Laptop</option>
+              <option value="hardware">Hardware</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="image" (change)="onFileChange($event)">
+            <img *ngIf="imagePreview" [src]="imagePreview" alt="Image Preview" width="100" style="margin-top: 10px;">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
           </div>
         </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Update modal -->
-<div class="modal fade" id="modalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modifier Utilisateur</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom">
-          </div>
-          <div class="mb-3">
-            <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="prenom">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Delete modal -->
-<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Utilisateur</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
-      </div>
-      <div class="modal-body">
-        <h3>
-          Voulez-vous vraiment supprimer cet utilisateur ?
-        </h3>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
       </div>
     </div>
   </div>

@@ -9,6 +9,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductsComponent } from 'app/pagesSimpleUser/products/products.component';
 import { UserProfileComponent } from 'app/pagesSimpleUser/userProfile/userProfile.component';
+import { ProductCardComponent } from 'app/pagesSimpleUser/product-card/product-card.component';
+import { ProductDetailComponent } from 'app/pagesSimpleUser/product-detail/product-detail.component';
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import { UserProfileComponent } from 'app/pagesSimpleUser/userProfile/userProfil
   ],
   declarations: [
     ProductsComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ProductCardComponent,
+    ProductDetailComponent
   ]
 })
 

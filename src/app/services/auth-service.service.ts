@@ -4,14 +4,15 @@ import { user } from 'app/models/user';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
   private role: string | null = null;
-  private tokenKey = 'token';
-  private userKey = 'user';
+  private tokenKey = "token";
+  private userKey = "user";
+  private userIdKey = "userId";
 
-  constructor(private router: Router, private cookieService: CookieService) { }
+  constructor(private router: Router, private cookieService: CookieService) {}
 
   setToken(token: string) {
     this.cookieService.set(this.tokenKey, token);
@@ -29,7 +30,7 @@ export class AuthService {
     if (!this.role) {
       const token = this.getToken();
       if (token) {
-        const payload = JSON.parse(atob(token.split('.')[1]));
+        const payload = JSON.parse(atob(token.split(".")[1]));
         this.role = payload.role;
       }
     }
@@ -39,26 +40,32 @@ export class AuthService {
   isAuthenticated(): boolean {
     const token = this.getToken();
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      const payload = JSON.parse(atob(token.split(".")[1]));
       const isExpired = Date.now() >= payload.exp * 1000;
       return !isExpired;
     }
     return false;
   }
 
-  setUserRole(user: any){
+  setUserRole(user: any) {
     localStorage.setItem(this.userKey, user.role);
   }
 
-  getUserRole(){
+  getUserRole() {
     return localStorage.getItem(this.userKey);
   }
-  
+
+  setUserId(userId: string): void {
+    localStorage.setItem(this.userIdKey, userId);
+  }
+
+  getUserId(): string | null {
+    return localStorage.getItem(this.userIdKey);
+  }
 
   logout() {
-
     localStorage.removeItem(this.userKey);
     this.role = null;
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
   }
 }

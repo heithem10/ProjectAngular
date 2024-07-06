@@ -1,0 +1,21 @@
+.stars {
+    display: flex;
+    cursor: pointer;
+}
+
+.star {
+    font-size: 2rem;
+    color: gray;
+    transition: color 0.3s ease;
+    /* Smooth transition for color change */
+}
+
+.star.filled {
+    color: gold;
+    /* Yellow color for filled stars */
+}
+
+.star.unfilled {
+    color: gray;
+    /* Default gray color for unfilled stars */
+}
